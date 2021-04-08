@@ -40,6 +40,7 @@ function onSubmit() {
 	var phone = document.getElementById("number").value;
 	var dialingCode = document.getElementById("dial").value;
 	phone = phone.replace(/-/gi, ''); // remove '-'
+	phone = phone.replace(/\s+/gi, '');
 	phone = +phone; // convert to number to remove leading '0'
 	var urlBase = "https://wa.me/";
 	var url = urlBase + dialingCode + phone;
