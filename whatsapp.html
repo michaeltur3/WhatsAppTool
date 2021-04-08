@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title>WhatsApp Tool</title>
+	<link rel="icon" href="http://tribona.co.il/media/k2/items/cache/82f87882866fcce76dca31189f8b0135_XL.jpg">
+</head>
+<body>
+<h1 style="text-align: center;">Start a new chat in WhatsApp</h1>
+
+<div class="form">
+	<form>
+		<label for="dial">Dialing Code:</label>
+		<input type="text" id="dial" name="dial" style="height:50px; width:100px"><br><br>
+		<label for="number">Phone Number:</label>
+		<input type="text" id="number" name="number" style="height:50px; width:230px"><br><br>
+		<input id="button" type="button" onclick="onSubmit()" value="Start" style="height:50px; width:350px">
+	</form>
+</div>
+
+<script>
+var initialDialingCode = "972";
+fetch("https://ipapi.co/country_calling_code/").then(function(response) {
+  return response.text();
+}).then(function(data) {
+	console.log(data);
+	initialDialingCode = data.replace(/\+/gi, ''); // remove '+'
+}).catch(function(err) {
+  console.log(err);
+});
+document.getElementById("dial").value = initialDialingCode;
+
+document.querySelector("#number").addEventListener("keydown", event => {
+    if(event.key !== "Enter") return;
+    document.querySelector("#button").click()
+    event.preventDefault();
+});
+
+function onSubmit() {
+	var phone = document.getElementById("number").value;
+	var dialingCode = document.getElementById("dial").value;
+	phone = phone.replace(/-/gi, ''); // remove '-'
+	phone = +phone; // convert to number to remove leading '0'
+	var urlBase = "https://wa.me/";
+	var url = urlBase + dialingCode + phone;
+	console.log(url);
+	window.open(url, '_blank').focus();
+}
+</script>
+
+</body>
+
+<style>
+	div.form
+	{
+		display: block;
+		text-align: center;
+	}
+	form
+	{
+		display: inline-block;
+		margin-left: auto;
+		margin-right: auto;
+		text-align: left;
+	}
+</style>
+</html>
