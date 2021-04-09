@@ -2,7 +2,13 @@
 <html>
 <head>
 	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="theme-color" content="#7952b3">
 	<title>WhatsApp Tool</title>
+	
+	<!-- Bootstrap CSS -->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
+	
 	<!-- Global site tag (gtag.js) - Google Analytics -->
 	<script async src="https://www.googletagmanager.com/gtag/js?id=G-KZCLP0HVBW"></script>
 	<script>
@@ -12,21 +18,49 @@
 
 	  gtag('config', 'G-KZCLP0HVBW');
 	</script>
-</head>
-<body>
-<h1 style="text-align: center;">Start a new chat in WhatsApp</h1>
+	<style>
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+      }
 
-<div class="form">
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
+    </style>
+	<link href="signin.css" rel="stylesheet">
+</head>
+
+<body class="text-center">
+<main class="form-signin">
 	<form>
-		<label for="dial">Dialing Code:</label>
-		<input type="text" id="dial" name="dial" style="height:50px; width:100px"><br><br>
-		<label for="number">Phone Number:</label>
-		<input type="text" id="number" name="number" style="height:50px; width:230px" autofocus><br><br>
-		<label for="message">Message (Optional):</label>
-		<input type="text" id="message" name="message" style="height:50px; width:200px"><br><br>
-		<input id="button" type="button" onclick="onSubmit()" value="Start" style="height:50px; width:350px">
+		<img class="d-block mx-auto mb-4" src="http://tribona.co.il/media/k2/items/cache/82f87882866fcce76dca31189f8b0135_XL.jpg" alt="" width="90" height="69">
+		<h1 class="h3 mb-3 fw-normal">Start a new chat in WhatsApp.</h1>
+		<div class="form-floating">
+			<input type="text" class="form-control" id="dial" name="dial" placeholder="" value="">
+			<label for="dial">Dialing Code:</label>
+		</div>
+		<div class="form-floating">
+			<input type="text" class="form-control" id="number" name="number" autofocus required>
+			<div class="invalid-feedback">
+				Phone number is required.
+			</div>
+			<label for="number">Phone Number:</label>
+		</div>
+		<div class="form-floating">
+			<input type="text" class="form-control" id="message" name="message" placeholder="" value="">
+			<label for="message">Message (Optional):</label>
+		</div>
+		<button class="w-100 btn btn-lg btn-primary" type="submit" onclick="onSubmit()">Start Chat</button>
+		<p class="mt-5 mb-3 text-muted">&copy; 2021 Michael Turgeman</p>
 	</form>
-</div>
+</main>
+
 
 <script>
 initDialingCode()
@@ -36,7 +70,7 @@ bindInputToButton("message", "button");
 function onSubmit() {
 	const urlBase = "https://wa.me/";
 	let phone = normalizePhoneNumber(document.getElementById("number").value);
-	let dialingCode = document.getElementById("dial").value;
+	let dialingCode = normalizeDialingCode(document.getElementById("dial").value);
 	let message = document.getElementById("message").value;
 	
 	let url = urlBase + dialingCode + phone;
@@ -50,8 +84,14 @@ function onSubmit() {
 	window.open(url, '_blank').focus();
 }
 
+function normalizeDialingCode(dialingCode) {
+	dialingCode = dialingCode.replace(/\+/gi, ''); // remove '+'
+	dialingCode = dialingCode.replace(/\s+/gi, ''); // remove whitespaces
+	return dialingCode;
+}
+
 function normalizePhoneNumber(phoneNumber) {
-	phoneNumber = phoneNumber.replace(/-/gi, ''); // remove '-'
+	phoneNumber = phoneNumber.replace(/\-/gi, ''); // remove '-'
 	phoneNumber = phoneNumber.replace(/\s+/gi, ''); // remove whitespaces
 	phoneNumber = +phoneNumber; // convert to number to remove leading '0'
 	return phoneNumber;
@@ -75,7 +115,7 @@ async function getDialingCode() {
 		if(response.ok) {
 			let dialingCode = await response.text();
 			console.log("dialingCode: " + dialingCode);
-			return dialingCode.replace(/\+/gi, ''); // remove '+'
+			return normalizeDialingCode(dialingCode);
 		} else {
 			throw new Error(response.statusText);
 		}
@@ -88,21 +128,7 @@ async function getDialingCode() {
 }
 
 </script>
-
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.min.js" integrity="sha384-j0CNLUeiqtyaRmlzUHCPZ+Gy5fQu0dQ6eZ/xAww941Ai1SxSY+0EQqNXNE6DZiVc" crossorigin="anonymous"></script>
+<script src="form-validation.js"></script>
 </body>
-
-<style>
-	div.form
-	{
-		display: block;
-		text-align: center;
-	}
-	form
-	{
-		display: inline-block;
-		margin-left: auto;
-		margin-right: auto;
-		text-align: left;
-	}
-</style>
 </html>
