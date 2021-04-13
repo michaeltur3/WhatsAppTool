@@ -18,12 +18,12 @@ function initPhoneInput() {
             }
 
             getCountryCode().then(country => {
-                let result = "us";
+                let result = "il";
                 if(country) {
                     localStorage.setItem("CountryForDialingCode", country);
                     result = country;
                 }
-                success(country);
+                success(result);
             });
         },
     });
