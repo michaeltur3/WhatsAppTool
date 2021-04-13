@@ -1,0 +1,14 @@
+.iti__flag {
+    background-image: url("assets/intl-tel-input-17.0.0/build/img/flags.png");
+}
+
+@media (-webkit-min-device-pixel-ratio: 2),
+(min-resolution: 192dpi) {
+    .iti__flag {
+        background-image: url("assets/intl-tel-input-17.0.0/build/img/flags@2x.png");
+    }
+}
+
+.iti {
+    width: 100%;
+}
