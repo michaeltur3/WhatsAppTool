@@ -1,6 +1,8 @@
 initPhoneInput();
 bindInputEnterToButton("message", "button");
 document.querySelector("#phone").focus();
+
+
 function initPhoneInput() {
     let input = document.querySelector("#phone");
     window.intlTelInput(input, {
