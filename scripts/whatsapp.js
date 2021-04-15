@@ -11,7 +11,7 @@ function initPhoneInput() {
         preferredCountries: ["us", "gb", "il"],
         initialCountry: "auto",
         geoIpLookup: function (success) {
-            // check cookies first
+            // check local storage first
             let cachedCountry = localStorage.getItem("CountryForDialingCode");
             console.log("Cached Country: " + cachedCountry);
             if(cachedCountry) {
