@@ -1,7 +1,8 @@
+var CACHED_COUNTRY_KEY = "CountryForDialingCode";
+
 initPhoneInput();
 bindInputEnterToButton("message", "button");
 document.querySelector("#phone").focus();
-
 
 function initPhoneInput() {
     let input = document.querySelector("#phone");
@@ -12,17 +13,16 @@ function initPhoneInput() {
         initialCountry: "auto",
         geoIpLookup: function (success) {
             // check local storage first
-            let cachedCountry = localStorage.getItem("CountryForDialingCode");
-            console.log("Cached Country: " + cachedCountry);
+            let cachedCountry = getCachedCountry();
             if(cachedCountry) {
                 success(cachedCountry);
                 return;
             }
 
             getCountryCode().then(country => {
-                let result = "il";
+                let result = "il"; // default value
                 if(country) {
-                    localStorage.setItem("CountryForDialingCode", country);
+                    setCachedCountry(country);
                     result = country;
                 }
                 success(result);
@@ -55,6 +55,12 @@ function onSubmit() {
     let phone = normalizePhoneNumber(iti.getNumber());
     console.log(phone);
 
+    let submittedCountry = iti.getSelectedCountryData().iso2;
+    if(submittedCountry) {
+        // save the selected country for next usage
+        setCachedCountry(submittedCountry);
+    }
+
     const urlBase = "https://wa.me/";
     let message = document.getElementById("message").value;
 
@@ -74,10 +80,22 @@ function normalizePhoneNumber(phoneNumber) {
     return phoneNumber;
 }
 
+// click the button when enter is pressed on input
 function bindInputEnterToButton(inputId, buttonId) {
     document.querySelector(`#${inputId}`).addEventListener("keydown", event => {
         if (event.key !== "Enter") return;
         document.querySelector(`#${buttonId}`).click()
         event.preventDefault();
     });
+}
+
+function getCachedCountry() {
+    let cachedCountry = localStorage.getItem(CACHED_COUNTRY_KEY);
+    console.log("getCachedCountry: " + cachedCountry);
+    return cachedCountry;
+}
+
+function setCachedCountry(country) {
+    console.log("setCachedCountry: " + country);
+    localStorage.setItem(CACHED_COUNTRY_KEY, country);
 }
