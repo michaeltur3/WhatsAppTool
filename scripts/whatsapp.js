@@ -84,7 +84,7 @@ function normalizePhoneNumber(phoneNumber) {
 function bindInputEnterToButton(inputId, buttonId) {
     document.querySelector(`#${inputId}`).addEventListener("keydown", event => {
         if (event.key !== "Enter") return;
-        document.querySelector(`#${buttonId}`).click()
+        document.querySelector(`#${buttonId}`).click();
         event.preventDefault();
     });
 }
