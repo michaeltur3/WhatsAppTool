@@ -1,5 +1,6 @@
 var CACHED_COUNTRY_KEY = "CountryForDialingCode";
 
+initShareButton();
 initPhoneInput();
 bindInputEnterToButton("message", "button");
 document.querySelector("#phone").focus();
@@ -98,4 +99,22 @@ function getCachedCountry() {
 function setCachedCountry(country) {
     console.log("setCachedCountry: " + country);
     localStorage.setItem(CACHED_COUNTRY_KEY, country);
+}
+
+function initShareButton() {
+    if (!navigator.share) {
+        document.getElementById("share").style.display="none";
+    }
+}
+
+function onShare() {
+    const title = document.title;
+    const url = "https://startnewchat.online";
+    if (navigator.share) {
+        navigator.share({
+          title: title,
+          url: url
+        })
+        .catch(console.error);
+      }
 }
