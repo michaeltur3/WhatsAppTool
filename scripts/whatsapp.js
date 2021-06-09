@@ -103,7 +103,7 @@ function setCachedCountry(country) {
 
 function initShareButton() {
     if (!navigator.share) {
-        document.getElementById("share").style.display="none";
+        document.getElementById("share").style.visibility = 'hidden';
     }
 }
 
